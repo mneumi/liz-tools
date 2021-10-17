@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+import "google.api.http";
+
+package user;
+
+service UserService {
+  // 获取用户信息
+  // @reqMetadata orgcode 租户号 
+  // @required
+  rpc Get(GetRequest) returns (GetResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/get"
+    };
+  }
+
+  // 列表用户信息
+  // @reqMetadata orgcode 租户号 
+  // @required
+  rpc List(ListRequest) returns (ListResponse) {
+    option (google.api.http) = {
+      post: "/v1/user/list"
+      body: "*"
+    };
+  }
+
+  // 查询季节
+  // @reqMetadata orgcode 租户号 
+  // @required
+  rpc GetSeason(GetSeasonRequest) returns (GetSeasonResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/season"
+    };
+  }
+}
+
+enum Season {
+  // 未使用
+  NotUsed = 0;
+  // 春天
+  Spring = 1;
+  // 夏天
+  Summer = 2;
+  // 秋天
+  Autumn = 3;
+  // 冬天
+  Winer = 4;
+}
+
+message User {
+  // 性别枚举
+  enum Gender {
+    // 未使用
+    NotUsed = 0;
+    // 性别枚举：男性
+    Male = 1;
+    // 性别枚举：女性
+    Female = 2;
+  }
+  // 姓名
+  string name = 1;
+  // 年龄
+  int32 age = 2;
+  // 性别
+  Gender gender = 3;
+}
+
+message GetRequest {
+  // GET: Name
+  string name = 1;
+}
+message GetResponse {
+  // GET: Greet
+  string greet = 1;
+}
+
+message ListRequest {
+  // List: Page
+  int32 page = 1;
+}
+message ListResponse {
+  // List: lisg
+  repeated User list = 1;
+}
+
+message GetSeasonRequest {
+}
+message GetSeasonResponse {
+  // 季节
+  Season season = 1;
+}
